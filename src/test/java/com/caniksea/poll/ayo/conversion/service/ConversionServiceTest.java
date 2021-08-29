@@ -32,11 +32,26 @@ class ConversionServiceTest {
         );
     }
 
+    @Test void getProcessor_expectException() {
+        Exception exception = assertThrows(UnsupportedConversionTypeException.class, () -> {
+            this.service.getProcessor("unknown");
+        });
+        assertTrue(exception.getMessage().contains("Unsupported conversion type"));
+    }
+
     @Test void convert() throws UnsupportedConversionTypeException, InvalidOrUnsupportedUnitException {
-        IProcessor processor = this.service.getProcessor("temperature");
-        Request request = this.requestFactory.build("linear", "celsius", "", 10, -1);
+        Request request = this.requestFactory.build("temperature", "celsius", "", 10, -1);
+        IProcessor processor = this.service.getProcessor(request.getType());
         Response response = this.service.convert(processor, request);
-        assertNotNull(response);
-        System.out.println(response);
+        assertNotNull(response.payload());
+    }
+
+    @Test void convert_expectException() throws UnsupportedConversionTypeException {
+        Request request = this.requestFactory.build("linear", "celsius", "", 10, -1);
+        IProcessor processor = this.service.getProcessor(request.getType());
+        InvalidOrUnsupportedUnitException exception = assertThrows(InvalidOrUnsupportedUnitException.class, () -> {
+            this.service.convert(processor, request);
+        });
+        assertTrue(exception.getMessage().contains("Invalid/unsupported"));
     }
 }

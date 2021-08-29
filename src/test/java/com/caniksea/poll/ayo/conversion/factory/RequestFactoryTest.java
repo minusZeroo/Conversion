@@ -26,4 +26,13 @@ class RequestFactoryTest {
         Request request = this.factory.build("temperature", "kelvin", "", 3, 3);
         assertNotNull(request);
     }
+
+    @Test void checkDecimalPlace() {
+        Request entity = this.factory.build("temperature", "kelvin", "", 3, -10);
+        Request request = this.factory.checkDecimalPlace(entity);
+        assertAll(
+                () -> assertNotNull(request),
+                () -> assertEquals(8, request.getDecimalPlace())
+        );
+    }
 }

@@ -19,12 +19,25 @@ public class ConversionService {
         this.requestFactory = requestFactory;
     }
 
+    /**
+     * perform conversion given request and processor
+     * @param processor
+     * @param request
+     * @return
+     * @throws InvalidOrUnsupportedUnitException
+     */
     public Response convert(IProcessor processor, Request request) throws InvalidOrUnsupportedUnitException {
         request = this.requestFactory.checkDecimalPlace(request);
         Response response = processor.convert(request);
         return response;
     }
 
+    /**
+     * get processor from factory
+     * @param conversionType
+     * @return
+     * @throws UnsupportedConversionTypeException
+     */
     public IProcessor getProcessor(String conversionType) throws UnsupportedConversionTypeException {
         ProcessorFactory processorFactory = ProcessorFactory.lookUp(conversionType);
         return processorFactory.getProcessor();
