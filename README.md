@@ -11,7 +11,7 @@ This api provides conversion for units.
 
 **Type** | **Supported Units**
 --- |--- |
-temperature | `celsuis,kelvin,fahrenheit` |
+temperature | `celsius,kelvin,fahrenheit` |
 linear | `inch,yard,nauticalmile,kilometer,foot`
 
 ### Sample request
